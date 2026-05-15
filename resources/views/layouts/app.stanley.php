@@ -28,6 +28,12 @@ use Bpjs\Framework\Helpers\Session;
     <!-- OTHERS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+    <!-- FULLCALENDAR -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css"
+          rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     
 
     <style>
@@ -117,15 +123,15 @@ use Bpjs\Framework\Helpers\Session;
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url(<?= asset('default_profil.webp')?>)"></span>
                   <div class="d-none d-xl-block ps-2">
-                    <div>Fadli</div>
+                    <div><?= auth()->user()->name?></div>
                     <div class="mt-1 small text-secondary">
-                      Admin
+                      <?= auth()->user()->role?>
                     </div>
                   </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <a href="" class="dropdown-item">Profile</a>
-                  <form action="" method="post">
+                  <form action="<?= route('logout')?>" method="post">
                     <?= csrf()?>
                     <button class="dropdown-item">Logout</button>
                   </form>
@@ -135,7 +141,7 @@ use Bpjs\Framework\Helpers\Session;
           <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
               <li class="nav-item">
-                <a class="nav-link" href="#" >
+                <a class="nav-link" hx-get="<?= url('')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                   <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
                   </span>
@@ -166,19 +172,19 @@ use Bpjs\Framework\Helpers\Session;
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('mytask')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         My Task
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('alltask')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         All Task
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('kanban')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Kanban Board
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('calendar')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Calendar
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('complete.task')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Completed Task
                       </a>
                     </div>
@@ -197,10 +203,10 @@ use Bpjs\Framework\Helpers\Session;
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.project')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         All Projects
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.create.project')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Create Project
                       </a>
                     </div>
@@ -219,10 +225,10 @@ use Bpjs\Framework\Helpers\Session;
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.workspace')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         All Workspace
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.members')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Workspace Members
                       </a>
                     </div>
@@ -241,10 +247,10 @@ use Bpjs\Framework\Helpers\Session;
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.team.user')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Users
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.team.roles')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Role & Permissions
                       </a>
                     </div>
@@ -263,13 +269,13 @@ use Bpjs\Framework\Helpers\Session;
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.collaboration.comments')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Comments
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.collaboration.attachments')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Attachments
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.collaboration.activity')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Activity Log
                       </a>
                     </div>
@@ -288,13 +294,13 @@ use Bpjs\Framework\Helpers\Session;
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.reports.productivity')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Productivity
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.reports.taskprogress')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Task Progress
                       </a>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" hx-get="<?= route('view.reports.teamperformance')?>" href="#" hx-target="#content" hx-push-url="true" hx-swap="innerHTML show:top">
                         Team Performance
                       </a>
                     </div>
@@ -314,7 +320,7 @@ use Bpjs\Framework\Helpers\Session;
                   Dashbord
                 </div>
                 <h2 class="page-title">
-                  TODO Apps
+                  Task Flow
                 </h2>
               </div>
               <div class="col-auto ms-auto d-print-none d-none d-lg-flex">
@@ -357,15 +363,15 @@ use Bpjs\Framework\Helpers\Session;
                         <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                             <span class="avatar avatar-sm" style="background-image: url(<?= asset('default_profil.webp')?>)"></span>
                             <div class="d-none d-xl-block ps-2">
-                                <div>Fadli</div>
+                                <div><?= auth()->user()->name?></div>
                                 <div class="mt-1 small text-secondary">
-                                  Admin
+                                  <?= auth()->user()->role?>
                                 </div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <a href="#" class="dropdown-item">Profile</a>
-                            <form action="#" method="post">
+                            <form action="<?= route('logout')?>" method="post">
                               <?= csrf()?>
                               <button class="dropdown-item">Logout</button>
                             </form>
@@ -377,7 +383,7 @@ use Bpjs\Framework\Helpers\Session;
           </div>
         </div>
         <!-- Page body -->
-        <div class="page-body">
+        <div class="page-body" id="content">
           <?= $content?>
         </div>
         <footer class="footer footer-transparent d-print-none">
@@ -407,6 +413,7 @@ use Bpjs\Framework\Helpers\Session;
 
     <!-- OTHERS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <!-- Libs JS -->
     <script src="<?= asset('tabler/dist/libs/apexcharts/dist/apexcharts.min.js?1692870487')?>" defer></script>
